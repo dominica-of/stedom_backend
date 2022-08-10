@@ -138,7 +138,7 @@ USE_TZ = True
 STATIC_URL = 'static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_DIRS = [
-    '/static/'
+    'static/'
 ]
 
 # Enable WhiteNoise's GZip compression of static assets.
