@@ -50,10 +50,6 @@ class UserSerializer(serializers.ModelSerializer):
             'password': self.validated_data.get('password', '')
         }
 
-    @staticmethod
-    def validate_password(value):
-        password_validation.validate_password(value)
-        return value
 
 
 class LogoutSerializer(serializers.Serializer):
