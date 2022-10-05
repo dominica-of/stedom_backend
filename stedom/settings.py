@@ -198,9 +198,3 @@ REST_FRAMEWORK = {
 
     'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema'
 }
-
-# Heroku setup
-if os.getcwd() == '/app':
-    import dj_database_url
-
-    DATABASES = {'default': dj_database_url.config(default='postgres://localhost')}
