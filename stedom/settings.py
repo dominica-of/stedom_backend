@@ -192,3 +192,14 @@ REST_FRAMEWORK = {
 
     'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema'
 }
+
+# Heroku setup
+if os.getcwd() == '/app':
+    import dj_database_url
+
+    DATABASES = {'default': dj_database_url.config(default='postgres://localhost')}
+
+    # Static asset configuration
+    BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    STATIC_ROOT = 'staticfiles'
+    STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
