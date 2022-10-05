@@ -22,5 +22,6 @@ schema_view = get_swagger_view(title='Stedom API')
 urlpatterns = [
     path('api/v1/docs/', schema_view, name='docs'),
     path('admin/', admin.site.urls),
+    path('accounts/login/', admin.site.login, name='default-admin-login'),
     path('api/v1/account/', include('authentication.urls')),
 ]

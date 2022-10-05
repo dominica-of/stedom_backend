@@ -1,6 +1,6 @@
 # users/views.py
-
-from authentication.serializers import UserSerializer, EmptySerializer, LogoutSerializer
+from authentication.models import Booking
+from authentication.serializers import UserSerializer, EmptySerializer, LogoutSerializer, BookingSerializer
 from django.contrib.auth import get_user_model
 from django.core.exceptions import ImproperlyConfigured
 from rest_framework import viewsets, status
@@ -50,6 +50,12 @@ class AuthViewSet(viewsets.GenericViewSet):
         serializer = self.get_serializer(user_profile)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
+    @action(methods=['GET', ], detail=False)
+    def tutors(self, request, *args, **kwargs):
+        queryset = User.objects.exclude(user_type='learner')
+        serializer = UserSerializer(queryset, many=True)
+        return Response(serializer.data)
+
     def get_serializer_class(self):
         if not isinstance(self.serializer_classes, dict):
             raise ImproperlyConfigured("serializer_classes should be a dict mapping.")
@@ -57,3 +63,19 @@ class AuthViewSet(viewsets.GenericViewSet):
         if self.action in self.serializer_classes.keys():
             return self.serializer_classes[self.action]
         return super().get_serializer_class()
+
+
+class BookingViewSet(viewsets.ModelViewSet):
+    queryset = Booking.objects.all()
+    serializer_class = BookingSerializer
+    permission_classes = [IsAuthenticated, ]
+
+    def list(self, request, *args, **kwargs):
+        if request.user.user_type == 'learner':
+            queryset = Booking.objects.filter(learner=request.user)
+            serializer = BookingSerializer(queryset, many=True)
+            return Response(serializer.data)
+        elif request.user.user_type == 'instructor':
+            queryset = Booking.objects.filter(instructor=request.user)
+            serializer = BookingSerializer(queryset, many=True)
+            return Response(serializer.data)
