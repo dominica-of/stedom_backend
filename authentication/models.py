@@ -21,7 +21,7 @@ class User(AbstractUser):
     email = models.EmailField(_('email address'), unique=True)
     full_name = models.CharField(_('full name'), max_length=100)
     specification = models.CharField(_('specification'), max_length=100)
-    rating = models.PositiveSmallIntegerField(choices=SCORE_CHOICES, blank=True)
+    rating = models.PositiveSmallIntegerField(choices=SCORE_CHOICES, blank=True, null=True)
     user_type = models.CharField(_('user type'), max_length=20, choices=USER_TYPE_CHOICES, default=LEARNER)
 
     USERNAME_FIELD = 'email'
